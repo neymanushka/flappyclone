@@ -41926,6 +41926,7 @@ function setup() {
     atlas = PIXI.loader.resources["atlas"].textures;
     top = new PIXI.Sprite(atlas["topScore.png"]);
     top.x = app.renderer.width - top.width - 150;
+    console.log(top);
     background = new PIXI.extras.TilingSprite(atlas["bg.png"], renderer.width, 256);
     background.y = renderer.height - 350;
     earth = new PIXI.extras.TilingSprite(atlas["spr_earth.png"], renderer.width);
