@@ -41894,7 +41894,6 @@ var msgGameOver = void 0;
 var gameOver = true;
 PIXI.loader.add("atlas", "textures/sprites.json").load(setup);
 function onGameOver() {
-    console.log("stop game");
     if (score > topScore) topScore = score;
     gameOver = true;
     msgGameOver.enable(function () {
@@ -41903,7 +41902,6 @@ function onGameOver() {
     });
 }
 function onGameStart() {
-    console.log("start game");
     score = 0;
     tubes.setPosition();
     button.disable();

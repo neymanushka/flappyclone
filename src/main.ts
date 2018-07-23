@@ -37,8 +37,6 @@ PIXI.loader
 
 function onGameOver()
 {
-    console.log("stop game");
-
     if( score > topScore ) topScore = score;
 
     gameOver = true;
@@ -50,8 +48,6 @@ function onGameOver()
 
 function onGameStart()
 {
-    console.log("start game");
-
     score = 0;
     tubes.setPosition();
     button.disable();
