@@ -102,7 +102,7 @@ function setup() {
     app.stage.addChild( bird.sprite );
     app.stage.addChild( top );
 
-    scoreLine = new Line( app,0,0 );
+    scoreLine = new Line( app,10,10 );
     topScoreLine = new Line( app,app.renderer.width - 140,10 );
 
     renderer.plugins.interaction.on('mousedown', ()=>{ if( !gameOver ) bird.speedUp(); } );

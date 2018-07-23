@@ -41941,7 +41941,7 @@ function setup() {
     app.stage.addChild(msgGameOver.sprite);
     app.stage.addChild(bird.sprite);
     app.stage.addChild(top);
-    scoreLine = new UI_1.Line(app, 0, 0);
+    scoreLine = new UI_1.Line(app, 10, 10);
     topScoreLine = new UI_1.Line(app, app.renderer.width - 140, 10);
     renderer.plugins.interaction.on('mousedown', function () {
         if (!gameOver) bird.speedUp();
