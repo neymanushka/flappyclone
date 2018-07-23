@@ -82,7 +82,6 @@ function setup() {
 
     top = new PIXI.Sprite( atlas["topScore.png"] );
     top.x = app.renderer.width - top.width - 150;
-    console.log(top);
 
     background = new PIXI.extras.TilingSprite( atlas["bg.png"],renderer.width,256 );
     background.y = renderer.height - 350

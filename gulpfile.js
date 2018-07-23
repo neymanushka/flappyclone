@@ -10,7 +10,7 @@ var paths = {
 
 gulp.task('copyHtml', function () {
     return gulp.src(paths.pages)
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('watch', function () {
@@ -35,5 +35,5 @@ gulp.task('default', ['copyHtml'], function () {
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('./'));
 });
