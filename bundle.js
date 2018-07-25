@@ -41736,6 +41736,7 @@ function Tubes(top, bottom, app) {
         var x = app.renderer.width;
         for (var _i = 0; _i < this.tubes.length; _i++) {
             this.tubes[_i].top.x = this.tubes[_i].bottom.x = x;
+            this.tubes[_i].setHeight();
             x += top.width * 3;
         }
         this.last = this.tubes[this.tubes.length - 1];
@@ -41955,7 +41956,7 @@ function gameLoop() {
         if (bird.isFlies) {
             score += tubes.move();
             earth.tilePosition.x -= 3;
-        }
+        } else onGameOver();
         if (isCollided()) {
             onGameOver();
         }

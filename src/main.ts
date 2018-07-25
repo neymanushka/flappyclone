@@ -113,13 +113,15 @@ function setup() {
 function gameLoop(){
     requestAnimationFrame(gameLoop);
 
+
     if( !gameOver )
     {
         if( bird.isFlies )
         {
             score += tubes.move();
-             earth.tilePosition.x -= 3;
+            earth.tilePosition.x -= 3;
         }
+        else onGameOver();
         if( isCollided()  )
         {
             onGameOver();

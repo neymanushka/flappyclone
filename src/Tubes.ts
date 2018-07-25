@@ -35,6 +35,7 @@ function Tubes( top,bottom,app )
         for( let i=0; i<this.tubes.length; i++)
         {
             this.tubes[i].top.x = this.tubes[i].bottom.x = x;
+            this.tubes[i].setHeight();
             x += top.width*3;
         }
         this.last = this.tubes[this.tubes.length-1];
