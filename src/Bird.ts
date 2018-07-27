@@ -1,53 +1,107 @@
-function Bird( app )
+class Bird extends PIXI.extras.AnimatedSprite
 {
-    this.frames = [];
-    this.delta = 0;
-    this.isFlies = false;
+    delta = 0;
+    isFlies = false;
+    gravity = 0.1;
+    startHeight;
 
-    for(let i = 0; i < 4; i++)
+    constructor( frames,x,y )
     {
-        this.frames.push( PIXI.Texture.fromFrame('bird'+i+'.png'));
+        super( frames );
+        this.disable();
+        this.x = x;
+        this.startHeight = y;
     }
 
-    this.sprite = new PIXI.extras.AnimatedSprite( this.frames );
-    this.sprite.animationSpeed = 0.2;
-
-    this.disable = function()
+    disable()
     {
-        this.sprite.visible = false;
+        this.visible = false;
     }
 
-    this.disable();
-
-    this.init = function()
+    init()
     {
-        this.sprite.x = app.renderer.width/2;
-        this.sprite.y = app.renderer.height/2;
+        this.y = this.startHeight/2;
         this.delta = -2;
         this.gravity = 0.1;
-        this.sprite.visible = true;
+        this.visible = true;
         this.isFlies = true;
-        this.sprite.play();
-    };
+        this.animationSpeed = 0.2;
+        this.play();
+    }
 
-    this.speedUp = function()
+    speedUp()
     {
         if( this.isFlies ) this.delta -= 5;
     }
-    this.update = function()
+
+    update( delta )
     {
-        if( this.sprite.y >= app.renderer.height-130 )
+        super.update( delta );
+
+        if( this.y >= this.startHeight-130 )
         {
-            this.sprite.stop();
+            this.stop();
             this.isFlies = false;
         }
         else
         {
-            this.sprite.y += this.delta;
+            this.y += this.delta;
             this.delta += this.gravity;
-            this.sprite.rotation = this.delta/10;
+            this.rotation = this.delta/10;
         }
     }
 }
+
+// function Bird( app )
+// {
+//     this.frames = [];
+//     this.delta = 0;
+//     this.isFlies = false;
+
+//     for(let i = 0; i < 4; i++)
+//     {
+//         this.frames.push( PIXI.Texture.fromFrame('bird'+i+'.png'));
+//     }
+
+//     this.sprite = new PIXI.extras.AnimatedSprite( this.frames );
+//     this.sprite.animationSpeed = 0.2;
+
+//     this.disable = function()
+//     {
+//         this.sprite.visible = false;
+//     }
+
+//     this.disable();
+
+//     this.init = function()
+//     {
+//         this.sprite.x = app.renderer.width/2;
+//         this.sprite.y = app.renderer.height/2;
+//         this.delta = -2;
+//         this.gravity = 0.1;
+//         this.sprite.visible = true;
+//         this.isFlies = true;
+//         this.sprite.play();
+//     };
+
+//     this.speedUp = function()
+//     {
+//         if( this.isFlies ) this.delta -= 5;
+//     }
+//     this.update = function()
+//     {
+//         if( this.sprite.y >= app.renderer.height-130 )
+//         {
+//             this.sprite.stop();
+//             this.isFlies = false;
+//         }
+//         else
+//         {
+//             this.sprite.y += this.delta;
+//             this.delta += this.gravity;
+//             this.sprite.rotation = this.delta/10;
+//         }
+//     }
+// }
 
 export { Bird };

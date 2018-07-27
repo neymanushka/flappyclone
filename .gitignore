@@ -32,6 +32,7 @@ sysinfo.txt
 /*.cmd
 /node_modules
 /.vscode
+package-lock.json
 # ============ #
 # OS generated #
 # ============ #

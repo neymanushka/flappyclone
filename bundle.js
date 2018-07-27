@@ -41668,43 +41668,74 @@ module.exports = {
 },{}],190:[function(require,module,exports){
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 Object.defineProperty(exports, "__esModule", { value: true });
-function Bird(app) {
-    this.frames = [];
-    this.delta = 0;
-    this.isFlies = false;
-    for (var i = 0; i < 4; i++) {
-        this.frames.push(PIXI.Texture.fromFrame('bird' + i + '.png'));
+
+var Bird = function (_PIXI$extras$Animated) {
+    _inherits(Bird, _PIXI$extras$Animated);
+
+    function Bird(frames, x, y) {
+        _classCallCheck(this, Bird);
+
+        var _this = _possibleConstructorReturn(this, (Bird.__proto__ || Object.getPrototypeOf(Bird)).call(this, frames));
+
+        _this.delta = 0;
+        _this.isFlies = false;
+        _this.gravity = 0.1;
+        _this.disable();
+        _this.x = x;
+        _this.startHeight = y;
+        return _this;
     }
-    this.sprite = new PIXI.extras.AnimatedSprite(this.frames);
-    this.sprite.animationSpeed = 0.2;
-    this.disable = function () {
-        this.sprite.visible = false;
-    };
-    this.disable();
-    this.init = function () {
-        this.sprite.x = app.renderer.width / 2;
-        this.sprite.y = app.renderer.height / 2;
-        this.delta = -2;
-        this.gravity = 0.1;
-        this.sprite.visible = true;
-        this.isFlies = true;
-        this.sprite.play();
-    };
-    this.speedUp = function () {
-        if (this.isFlies) this.delta -= 5;
-    };
-    this.update = function () {
-        if (this.sprite.y >= app.renderer.height - 130) {
-            this.sprite.stop();
-            this.isFlies = false;
-        } else {
-            this.sprite.y += this.delta;
-            this.delta += this.gravity;
-            this.sprite.rotation = this.delta / 10;
+
+    _createClass(Bird, [{
+        key: "disable",
+        value: function disable() {
+            this.visible = false;
         }
-    };
-}
+    }, {
+        key: "init",
+        value: function init() {
+            this.y = this.startHeight / 2;
+            this.delta = -2;
+            this.gravity = 0.1;
+            this.visible = true;
+            this.isFlies = true;
+            this.animationSpeed = 0.2;
+            this.play();
+        }
+    }, {
+        key: "speedUp",
+        value: function speedUp() {
+            if (this.isFlies) this.delta -= 5;
+        }
+    }, {
+        key: "update",
+        value: function update(delta) {
+            _get(Bird.prototype.__proto__ || Object.getPrototypeOf(Bird.prototype), "update", this).call(this, delta);
+            if (this.y >= this.startHeight - 130) {
+                this.stop();
+                this.isFlies = false;
+            } else {
+                this.y += this.delta;
+                this.delta += this.gravity;
+                this.rotation = this.delta / 10;
+            }
+        }
+    }]);
+
+    return Bird;
+}(PIXI.extras.AnimatedSprite);
+
 exports.Bird = Bird;
 
 },{}],191:[function(require,module,exports){
@@ -41774,71 +41805,122 @@ exports.Tubes = Tubes;
 },{"./Util":193}],192:[function(require,module,exports){
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 Object.defineProperty(exports, "__esModule", { value: true });
-function Number(frame, x, y) {
-    this.sprite = new PIXI.Sprite(frame);
-    this.sprite.x = x;
-    this.sprite.y = y;
-}
-function Line(app, x, y) {
-    this.frames = [];
-    this.numbers = new Array();
-    for (var i = 0; i < 10; i++) {
-        this.frames.push(PIXI.Texture.fromFrame(i + '.png'));
+
+var Line = function () {
+    function Line(app, x, y) {
+        _classCallCheck(this, Line);
+
+        this.frames = [];
+        this.numbers = [];
+        for (var i = 0; i < 10; i++) {
+            this.frames.push(PIXI.Texture.fromFrame(i + '.png'));
+        }
+        for (var _i = 0; _i < 6; _i++) {
+            this.numbers.push(new PIXI.Sprite(this.frames[0]));
+            this.numbers[_i].x = x + _i * this.frames[0].width;
+            this.numbers[_i].y = y;
+            app.stage.addChild(this.numbers[_i]);
+        }
     }
-    for (var _i = 0; _i < 6; _i++) {
-        this.numbers.push(new Number(this.frames[0], x + _i * this.frames[0].width, y));
-        app.stage.addChild(this.numbers[_i].sprite);
-    }
-    this.update = function (string) {
-        for (var _i2 = 0; _i2 < this.numbers.length; _i2++) {
-            if (_i2 < string.length) {
-                this.numbers[_i2].sprite.texture = this.frames[string[_i2]];
-                this.numbers[_i2].sprite.visible = true;
-            } else {
-                this.numbers[_i2].sprite.visible = false;
+
+    _createClass(Line, [{
+        key: "update",
+        value: function update(string) {
+            for (var i = 0; i < this.numbers.length; i++) {
+                if (i < string.length) {
+                    this.numbers[i].texture = this.frames[string[i]];
+                    this.numbers[i].visible = true;
+                } else {
+                    this.numbers[i].visible = false;
+                }
             }
         }
-    };
-}
-exports.Line = Line;
-function Button(spr, x, y, func) {
-    var _this = this;
+    }]);
 
-    this.sprite = spr;
-    this.sprite.x = x;
-    this.sprite.y = y;
-    this.sprite.interactive = true;
-    this.sprite.on('mousedown', function () {
-        _this.sprite.tint = "0x0fffff";
-    });
-    this.sprite.on('mouseup', function () {
-        _this.sprite.tint = "0xffffff";func();
-    });
-    this.enable = function () {
-        this.sprite.visible = true;
-    };
-    this.disable = function () {
-        this.sprite.visible = false;
-    };
-}
+    return Line;
+}();
+
+exports.Line = Line;
+
+var Button = function (_PIXI$Sprite) {
+    _inherits(Button, _PIXI$Sprite);
+
+    function Button(spr, x, y, func) {
+        _classCallCheck(this, Button);
+
+        var _this = _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).call(this, spr));
+
+        _this.x = x;
+        _this.y = y;
+        _this.interactive = true;
+        _this.on('mousedown', function () {
+            _this.tint = 0x0fffff;
+        });
+        _this.on('mouseup', function () {
+            _this.tint = 0xffffff;func();
+        });
+        return _this;
+    }
+
+    _createClass(Button, [{
+        key: "enable",
+        value: function enable() {
+            this.visible = true;
+        }
+    }, {
+        key: "disable",
+        value: function disable() {
+            this.visible = false;
+        }
+    }]);
+
+    return Button;
+}(PIXI.Sprite);
+
 exports.Button = Button;
-function Message(spr, x, y, timeout) {
-    this.sprite = spr;
-    this.sprite.x = x;
-    this.sprite.y = y;
-    this.sprite.visible = false;
-    this.timeout = timeout;
-    this.enable = function (onTimeOut) {
-        this.sprite.visible = true;
-        setTimeout(function () {
-            onTimeOut();
-        }, this.timeout);
-    };
-    this.disable = function () {
-        this.sprite.visible = false;
-    };
-}
+
+var Message = function (_PIXI$Sprite2) {
+    _inherits(Message, _PIXI$Sprite2);
+
+    function Message(spr, x, y, timeout) {
+        _classCallCheck(this, Message);
+
+        var _this2 = _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, spr));
+
+        _this2.x = x;
+        _this2.y = y;
+        _this2.visible = false;
+        _this2.timeout = timeout;
+        return _this2;
+    }
+
+    _createClass(Message, [{
+        key: "enable",
+        value: function enable(onTimeOut) {
+            this.visible = true;
+            setTimeout(function () {
+                onTimeOut();
+            }, this.timeout);
+        }
+    }, {
+        key: "disable",
+        value: function disable() {
+            this.visible = false;
+        }
+    }]);
+
+    return Message;
+}(PIXI.Sprite);
+
 exports.Message = Message;
 
 },{}],193:[function(require,module,exports){
@@ -41915,7 +41997,7 @@ function onGameStart() {
 }
 function isCollided() {
     for (var i = 0; i < tubes.len(); i++) {
-        if (Util_1.intersect(bird.sprite, tubes.tubes[i].top) || Util_1.intersect(bird.sprite, tubes.tubes[i].bottom)) {
+        if (Util_1.intersect(bird, tubes.tubes[i].top) || Util_1.intersect(bird, tubes.tubes[i].bottom)) {
             return true;
         }
     }
@@ -41929,29 +42011,30 @@ function setup() {
     background.y = renderer.height - 350;
     earth = new PIXI.extras.TilingSprite(atlas["spr_earth.png"], renderer.width);
     earth.y = renderer.height - 100;
-    button = new UI_1.Button(new PIXI.Sprite(atlas["playButton.png"]), app.renderer.width / 2, app.renderer.height / 2, onGameStart);
-    msgGetReady = new UI_1.Message(new PIXI.Sprite(atlas["getReadyMsg.png"]), app.renderer.width / 2.1, app.renderer.height / 2.3, 2000);
-    msgGameOver = new UI_1.Message(new PIXI.Sprite(atlas["gameOverMsg.png"]), app.renderer.width / 2.1, app.renderer.height / 2.3, 2000);
-    bird = new Bird_1.Bird(app);
+    button = new UI_1.Button(atlas["playButton.png"], app.renderer.width / 2, app.renderer.height / 2, onGameStart);
+    msgGetReady = new UI_1.Message(atlas["getReadyMsg.png"], app.renderer.width / 2.1, app.renderer.height / 2.3, 2000);
+    msgGameOver = new UI_1.Message(atlas["gameOverMsg.png"], app.renderer.width / 2.1, app.renderer.height / 2.3, 2000);
+    var frames = new Array();
+    for (var i = 0; i < 4; i++) {
+        frames.push(PIXI.Texture.fromFrame('bird' + i + '.png'));
+    }
+    bird = new Bird_1.Bird(frames, app.renderer.width / 2, app.renderer.height);
     far.addChild(background);
     app.stage.addChild(far);
     tubes = new Tubes_1.Tubes(atlas["topTube.png"], atlas["bottomTube.png"], app);
-    app.stage.addChild(earth);
-    app.stage.addChild(button.sprite);
-    app.stage.addChild(msgGetReady.sprite);
-    app.stage.addChild(msgGameOver.sprite);
-    app.stage.addChild(bird.sprite);
+    app.stage.addChild(earth, button);
+    app.stage.addChild(msgGetReady, msgGameOver);
+    app.stage.addChild(bird);
     app.stage.addChild(top);
     scoreLine = new UI_1.Line(app, 10, 10);
     topScoreLine = new UI_1.Line(app, app.renderer.width - 140, 10);
     renderer.plugins.interaction.on('mousedown', function () {
         if (!gameOver) bird.speedUp();
     });
-    gameLoop();
+    app.ticker.add(gameLoop, this);
 }
 ;
-function gameLoop() {
-    requestAnimationFrame(gameLoop);
+function gameLoop(delta) {
     if (!gameOver) {
         if (bird.isFlies) {
             score += tubes.move();
@@ -41961,7 +42044,6 @@ function gameLoop() {
             onGameOver();
         }
     }
-    bird.update();
     scoreLine.update(score.toString());
     topScoreLine.update(topScore.toString());
     renderer.render(app.stage);

@@ -1,85 +1,88 @@
-
-function Number( frame,x,y )
+class Line
 {
-    this.sprite = new PIXI.Sprite( frame );
-    this.sprite.x = x;
-    this.sprite.y = y;
-}
+    frames = [];
+    numbers = [];
 
-function Line( app,x,y )
-{
-    this.frames = [];
-    this.numbers = new Array();
-
-    for(let i = 0; i < 10; i++)
+    constructor(  app,x,y  )
     {
-        this.frames.push( PIXI.Texture.fromFrame(i+'.png'));
-    }
-
-    for(let i = 0; i < 6; i++)
-    {
-        this.numbers.push( new Number( this.frames[0],x + i*this.frames[0].width,y ));
-        app.stage.addChild( this.numbers[i].sprite );
-    }
-
-    this.update = function( string )
-    {
-        for(let i = 0; i < this.numbers.length ; i++)
+        for(let i = 0; i < 10; i++)
         {
-            if( i < string.length )
-            {
-                this.numbers[i].sprite.texture = this.frames[string[i]];
-                this.numbers[i].sprite.visible = true;
-            }
-            else
-            {
-                this.numbers[i].sprite.visible = false;
-            }
-
+            this.frames.push( PIXI.Texture.fromFrame(i+'.png'));
         }
-    }
 
+        for(let i = 0; i < 6; i++)
+        {
+            this.numbers.push( new PIXI.Sprite( this.frames[0] ));
+            this.numbers[i].x = x + i*this.frames[0].width;
+            this.numbers[i].y = y;
+            app.stage.addChild( this.numbers[i] );
+        }
+
+    }
+    update( string )
+    {
+         for(let i = 0; i < this.numbers.length ; i++)
+         {
+             if( i < string.length )
+             {
+                 this.numbers[i].texture = this.frames[string[i]];
+                 this.numbers[i].visible = true;
+             }
+             else
+             {
+                 this.numbers[i].visible = false;
+             }
+
+         }
+    }
 }
 
 
-function Button( spr,x,y,func )
+class Button extends PIXI.Sprite
 {
-    this.sprite = spr;
-    this.sprite.x = x;
-    this.sprite.y = y;
-    this.sprite.interactive = true;
-    this.sprite.on('mousedown', ()=>{ this.sprite.tint="0x0fffff"; });
-    this.sprite.on('mouseup', ()=>{ this.sprite.tint="0xffffff"; func(); } );
-
-    this.enable = function()
+    constructor( spr,x,y,func )
     {
-        this.sprite.visible = true;
+        super( spr );
+        this.x = x;
+        this.y = y;
+        this.interactive = true;
+        this.on('mousedown', ()=>{ this.tint=0x0fffff; });
+        this.on('mouseup', ()=>{ this.tint=0xffffff; func(); } );
     }
-    this.disable = function()
+
+    enable()
     {
-        this.sprite.visible = false;
+        this.visible = true;
+    }
+
+    disable()
+    {
+        this.visible = false;
     }
 }
 
 
-function Message( spr,x,y,timeout )
+class Message extends PIXI.Sprite
 {
-    this.sprite = spr;
-    this.sprite.x = x;
-    this.sprite.y = y;
-    this.sprite.visible = false;
-    this.timeout = timeout;
+    timeout : number;
 
-    this.enable = function( onTimeOut )
+    constructor( spr,x,y,timeout )
     {
-        this.sprite.visible = true;
+        super( spr );
+        this.x = x;
+        this.y = y;
+        this.visible = false;
+        this.timeout = timeout;
+    }
+    enable( onTimeOut )
+    {
+        this.visible = true;
         setTimeout(()=>{ onTimeOut(); },this.timeout );
     }
-    this.disable = function()
+    disable()
     {
-        this.sprite.visible = false;
+        this.visible = false;
     }
 }
-
 
 export { Button,Message,Line };

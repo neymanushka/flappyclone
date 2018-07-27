@@ -63,7 +63,7 @@ function isCollided()
 {
     for( let i=0; i<tubes.len(); i++ )
     {
-        if( intersect( bird.sprite,tubes.tubes[i].top) || intersect( bird.sprite,tubes.tubes[i].bottom) )
+        if( intersect( bird,tubes.tubes[i].top) || intersect( bird,tubes.tubes[i].bottom) )
         {
             return true;
         }
@@ -84,22 +84,26 @@ function setup() {
     earth = new PIXI.extras.TilingSprite( atlas["spr_earth.png"],renderer.width );
     earth.y = renderer.height-100;
 
-    button = new Button( new PIXI.Sprite( atlas["playButton.png"]),app.renderer.width/2,app.renderer.height/2,onGameStart );
+    button = new Button( atlas["playButton.png"],app.renderer.width/2,app.renderer.height/2,onGameStart );
 
-    msgGetReady = new Message( new PIXI.Sprite( atlas["getReadyMsg.png"] ),app.renderer.width/2.1,app.renderer.height/2.3,2000 );
-    msgGameOver = new Message( new PIXI.Sprite( atlas["gameOverMsg.png"] ),app.renderer.width/2.1,app.renderer.height/2.3,2000 );
+    msgGetReady = new Message( atlas["getReadyMsg.png"],app.renderer.width/2.1,app.renderer.height/2.3,2000 );
+    msgGameOver = new Message( atlas["gameOverMsg.png"],app.renderer.width/2.1,app.renderer.height/2.3,2000 );
 
 
-    bird = new Bird( app );
+    let frames = new Array();
+    for(let i = 0; i < 4; i++)
+    {
+        frames.push( PIXI.Texture.fromFrame('bird'+i+'.png'));
+    }
+
+    bird = new Bird( frames,app.renderer.width/2,app.renderer.height );
 
     far.addChild( background );
     app.stage.addChild( far );
     tubes = new Tubes( atlas["topTube.png"],atlas["bottomTube.png"],app );
-    app.stage.addChild( earth );
-    app.stage.addChild( button.sprite );
-    app.stage.addChild( msgGetReady.sprite );
-    app.stage.addChild( msgGameOver.sprite );
-    app.stage.addChild( bird.sprite );
+    app.stage.addChild( earth,button );
+    app.stage.addChild( msgGetReady, msgGameOver );
+    app.stage.addChild( bird);
     app.stage.addChild( top );
 
     scoreLine = new Line( app,10,10 );
@@ -107,13 +111,11 @@ function setup() {
 
     renderer.plugins.interaction.on('mousedown', ()=>{ if( !gameOver ) bird.speedUp(); } );
 
-    gameLoop();
+    app.ticker.add( gameLoop, this);
 };
 
-function gameLoop(){
-    requestAnimationFrame(gameLoop);
-
-
+function gameLoop( delta )
+{
     if( !gameOver )
     {
         if( bird.isFlies )
@@ -127,7 +129,6 @@ function gameLoop(){
             onGameOver();
         }
     }
-    bird.update();
     scoreLine.update( score.toString() );
     topScoreLine.update( topScore.toString() );
 
